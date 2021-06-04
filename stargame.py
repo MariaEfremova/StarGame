@@ -31,7 +31,7 @@ RIGHT = 'право'
 
 
 def main():
-    global FPSCLOCK, DISPLAYSURF, IMAGESDICT, TILEMAPPING, OUTSIDEDECOMAPPING, BASICFONT, PLAYERIMAGES, currentImage
+    global FPSCLOCK, DISPLAYSURF, IMAGES, TILEMAPPING, OUTSIDEDECOMAPPING, BASICFONT, PLAYERIMAGES, currentImage
 
     # инициализация Pygame и настройка глобальных переменных
     pygame.init()
@@ -47,9 +47,8 @@ def main():
     pygame.display.set_caption('Звездная головоломка')
     BASICFONT = pygame.font.Font('freesansbold.ttf', 20)
 
-    # глобальное значение dict, которое будет содержать Pygame
     # поверхностнтыне объекты, возвращаемые  pygame.image.load().
-    IMAGESDICT = {'uncovered goal': pygame.image.load('BlueSelector.png'),
+    IMAGES = {'uncovered goal': pygame.image.load('BlueSelector.png'),
                   'covered goal': pygame.image.load('Selector.png'),
                   'star': pygame.image.load('Star.png'),
                   'corner': pygame.image.load('Wall_Block_Tall.png'),
@@ -70,23 +69,23 @@ def main():
 
     # эти значения dict являются глобальными и отображают символы в текстовом файле
 
-    TILEMAPPING = {'x': IMAGESDICT['corner'],
-                   '#': IMAGESDICT['wall'],
-                   'o': IMAGESDICT['inside floor'],
-                   ' ': IMAGESDICT['outside floor']}
-    OUTSIDEDECOMAPPING = {'1': IMAGESDICT['rock'],
-                          '2': IMAGESDICT['short tree'],
-                          '3': IMAGESDICT['tall tree'],
-                          '4': IMAGESDICT['ugly tree']}
+    TILEMAPPING = {'x': IMAGES['corner'],
+                   '#': IMAGES['wall'],
+                   'o': IMAGES['inside floor'],
+                   ' ': IMAGES['outside floor']}
+    OUTSIDEDECOMAPPING = {'1': IMAGES['rock'],
+                          '2': IMAGES['short tree'],
+                          '3': IMAGES['tall tree'],
+                          '4': IMAGES['ugly tree']}
 
     # PLAYERIMAGES - все возможные персонажи, которыми может быть игрок.
     # currentImage - индекс текущего изображения игрока.
     currentImage = 0
-    PLAYERIMAGES = [IMAGESDICT['frog'],
-                    IMAGESDICT['cat'],
-                    IMAGESDICT['hamster'],
-                    IMAGESDICT['pig'],
-                    IMAGESDICT['dog']]
+    PLAYERIMAGES = [IMAGES['frog'],
+                    IMAGES['cat'],
+                    IMAGES['hamster'],
+                    IMAGES['pig'],
+                    IMAGES['dog']]
 
     startScreen()  # показывает начальный экран игры, пока игрок не нажмет клавишу для старта.
 
@@ -250,9 +249,9 @@ def runLevel(levels, levelNum):
         if levelIsComplete:
             # уровень пройден. изображение "уровень пройден" остается
             # пока игрок не нажмет клавишу
-            solvedRect = IMAGESDICT['solved'].get_rect()
+            solvedRect = IMAGES['solved'].get_rect()
             solvedRect.center = (HALF_WINWIDTH, HALF_WINHEIGHT)
-            DISPLAYSURF.blit(IMAGESDICT['solved'], solvedRect)
+            DISPLAYSURF.blit(IMAGES['solved'], solvedRect)
 
             if keyPressed:
                 return 'solved'
@@ -358,7 +357,7 @@ def startScreen():
     """Отображется начальный экран."""
 
     # размещение изображения заголовка
-    titleRect = IMAGESDICT['title'].get_rect()
+    titleRect = IMAGES['title'].get_rect()
     topCoord = 20  # положение верхней части текста
     titleRect.top = topCoord
     titleRect.centerx = HALF_WINWIDTH
@@ -375,7 +374,7 @@ def startScreen():
     # Start with drawing a blank color to the entire window:
     DISPLAYSURF.fill(BGCOLOR)
 
-    DISPLAYSURF.blit(IMAGESDICT['title'], titleRect)
+    DISPLAYSURF.blit(IMAGES['title'], titleRect)
 
     for i in range(len(instructionText)):
         instSurf = BASICFONT.render(instructionText[i], 1, TEXTCOLOR)
@@ -525,10 +524,10 @@ def drawMap(mapObj, gameStateObj, goals):
             elif (x, y) in gameStateObj['stars']:
                 if (x, y) in goals:
                     # A goal AND star are on this space, draw goal first.
-                    mapSurf.blit(IMAGESDICT['covered goal'], spaceRect)
-                mapSurf.blit(IMAGESDICT['star'], spaceRect)
+                    mapSurf.blit(IMAGES['covered goal'], spaceRect)
+                mapSurf.blit(IMAGES['star'], spaceRect)
             elif (x, y) in goals:
-                mapSurf.blit(IMAGESDICT['uncovered goal'], spaceRect)
+                mapSurf.blit(IMAGES['uncovered goal'], spaceRect)
 
             # последний выход игрока
             if (x, y) == gameStateObj['player']:
